@@ -10,10 +10,30 @@ Fork and clone this repo. On your fork, answer and commit the follow questions. 
 Write 3 different ways of safely unwrapping and printing the value of `userName`.  If it is nil, print "No name".
 
 - Method one: Check for nil and force unwrap
+```swift
+if userName != nil {
+    print(userName!)
+} else {
+    print("No name")
+}
+```
 
 - Method two: Optional binding
+```swift
+if let name = userName {
+    print(name)
+} else {
+    print("No name")
+}
+
+```
 
 - Method three: Nil coalescing
+```swift
+var userName: String?
+var name = userName ?? "No name"
+print(name)
+```
 
 
 ## Question 2
@@ -22,6 +42,14 @@ Given optional string `backgroundColor`, write code that safely unwraps and prin
 
 `var backgroundColor: String?`
 
+```swift
+var backgroundColor: String?
+let color = backgroundColor ?? "aquamarine"
+
+if backgroundColor == nil {
+    print(color)
+}
+```
 
 ## Question 3
 
@@ -31,7 +59,16 @@ Given an optional width and an optional height of a rectangle, write code that c
 var width: Double?
 var height: Double?
 ```
+```swift
+var width: Double? = 5.5
+var height: Double? = 11.0
 
+if let width = width, let height = height {
+    print("area of rectangle is equal to \(width * height)")
+} else {
+    print("unable to find area of rectangle")
+}
+```
 
 ## Question 4
 
@@ -41,6 +78,12 @@ Given the following optional variables `name`, `age` and `height`. Write code so
 var name: String?
 var age: Int?
 var height: Double?
+
+if let name = name, let age = age, let height = height {
+    print("\(name), \(age), \(height)")
+} else {
+    print("error: missing name, age, and height")
+}
 ```
 
 
@@ -52,6 +95,15 @@ Given the variables `firstName`, `middleName` and `lastName`. Create a variable 
 var firstName: String = "Johnny"
 var middleName: String?
 var lastName: String = "Stone"
+
+var fullName = ""
+
+if middleName == nil {
+    fullName = ("\(firstName) \(lastName)")
+} else {
+    fullName = ("\(firstName) \(middleName!) \(lastName)")
+}
+print(fullName)
 ```
 
 
@@ -61,6 +113,11 @@ Write code that adds 15 to `myIntString`, then prints the sum. Use the `Int()` c
 
 `let myIntString = "35"`
 
+```swift
+if let integer = Int(myIntString) {
+    print(integer + 15)
+}
+```
 
 ## Question 7
 
@@ -69,11 +126,30 @@ Given an optional tuple of optional Ints, write code to safely unwrap the tuple 
 ```swift
 var scores: (Int?, Int?, Int?)?
 
-var testCaseOne = (4, nil, 7)
-var testCaseTwo = (nil, nil, 9)
-var testCaseThree = (5, 10, 24)
-```
+var testCaseOne: (Int?, Int?, Int?)? = (4, nil, 7)
+var testCaseTwo: (Int?, Int?, Int?)? = (nil, nil, 9)
+var testCaseThree: (Int?, Int?, Int?)? = (5, 10, 24)
 
+let testCases = [testCaseOne, testCaseTwo, testCaseThree]
+
+for tCase in testCases {
+var sum = 0
+if let currentCase = tCase {
+if let num1 = currentCase.0 {
+sum += num1
+}
+if let num2 = currentCase.1 {
+sum += num2
+}
+if let num3 = currentCase.2 {
+sum += num3
+}
+print(sum)
+}
+
+}
+
+```
 
 ## Question 8
 
@@ -82,7 +158,10 @@ Safely unwrap `tuple` if there’s a non-nil tuple value and print it out.
 ```swift
 var tuple: (Int, Int)?
 if Bool.random() {
- tuple = (5, 3)
+    tuple = (5, 3)
+    if let tuple = tuple {
+        print(tuple.0, tuple.1)
+    }
 }
 ```
 
@@ -93,25 +172,37 @@ Write code that either doubles `myInt` and then prints it, or prints an error me
 
 ```swift
 let myInt: Int?
+
 if Bool.random() {
- myInt = 5
+    myInt = 5
+    if myInt != nil {
+        print(myInt! * 2)
+    } else {
+        print("error")
+    }
 }
 ```
+
 
 
 ## Question 10
 
 Write code that prints out the product of `myDouble` and `doubleTwo` or prints an error message if `myDouble` is nil.
 
+
 ```swift
 var myDouble: Double?
 let doubleTwo: Double = 5
 
 if Bool.random() {
- myDouble = 12
+    myDouble = 12
+}
+    if let myDouble = myDouble {
+        print(myDouble * doubleTwo)
+    } else {
+        print("error")
 }
 ```
-
 
 ## Question 11
 
@@ -121,7 +212,12 @@ Determine if the variable contains a Boolean or nil value. If nil set the variab
 var isTheGreatest: Bool?
 
 if Bool.random() {
- isTheGreatest = true
+    isTheGreatest = true
+    if isTheGreatest == true {
+        print(true)
+} else {
+    print (false)
+}
 }
 ```
 
@@ -205,7 +301,12 @@ Given an optional int `numberOfPeople`, write code that unwraps and prints it **
 var numberOfPeople: Int?
 
 if Bool.random() {
- numberOfPeople = 108
+    numberOfPeople = 108
+    if let evenNumber = numberOfPeople {
+        if evenNumber % 2 == 0 {
+            print("\(evenNumber)")
+        }
+    }
 }
 ```
 
@@ -232,7 +333,17 @@ let poorlyFormattedCityNames: [String?] = ["new york", "BOSTON", nil, "chicago",
 
 Output: ["New York", "Boston", "Chicago", "Los Angeles", "Dallas"]
 ```
+```swift
+var formattedCities = [String]()
 
+for cityNames in poorlyFormattedCityNames {
+    if let cities = cityNames {
+        formattedCities.append(cities.capitalized)
+    }
+
+}
+print(formattedCities)
+```
 
 ## Question 17
 
@@ -251,8 +362,18 @@ for _ in 0..<20 {
 
 Given the following array of zip codes as strings, write code that turns them into an array of Ints.
 
-`let zipCodeStrings = ["11377", "11101", "11373", "10014", "10003", "11223"]`
+```swift
+let zipCodeStrings = ["11377", "11101", "11373", "10014", "10003", "11223"]
 
+var zipArray: [Int] = []
+
+for zipcodes in zipCodeStrings {
+    if let zipStrings = Int(zipcodes) {
+        zipArray.append(zipStrings)
+    }
+}
+print(zipArray)
+```
 
 ## Question 19
 
